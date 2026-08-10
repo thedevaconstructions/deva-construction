@@ -3,11 +3,28 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/guard";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { DataTable } from "@/components/admin/Page";
+import { CostBox, DataTable } from "@/components/admin/Page";
 import { DownloadSitePdfButton } from "@/components/admin/ReportPdf";
 import { DownloadSiteCsvButton } from "@/components/admin/ReportCsv";
 import { lineTotal } from "@/lib/money";
 import { formatDateTime } from "@/lib/dateFormat";
+
+const STATUS_STYLE: Record<string, string> = {
+  planned: "border-slate-200 bg-slate-50 text-slate-700",
+  active: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  on_hold: "border-amber-200 bg-amber-50 text-amber-700",
+  completed: "border-brand/30 bg-brand/10 text-brand-700",
+  cancelled: "border-red-200 bg-red-50 text-red-700",
+};
+
+function InfoBox({ label, value, className }: { label: string; value: string; className?: string }) {
+  return (
+    <div className={`rounded-lg border px-3 py-2 ${className ?? "border-[var(--line)] bg-white"}`}>
+      <div className="text-[10px] font-medium uppercase tracking-wide opacity-70">{label}</div>
+      <div className="text-sm font-semibold">{value}</div>
+    </div>
+  );
+}
 
 export default async function ClientSiteReportPage({ params }: { params: { id: string } }) {
   const { user } = await requireRole("client");
@@ -128,20 +145,64 @@ export default async function ClientSiteReportPage({ params }: { params: { id: s
     })),
   };
 
+  const remaining = budget - spent;
+  const overBudget = budget > 0 && spent > budget;
+
   return (
     <main className="mx-auto max-w-5xl p-4 sm:p-6 lg:p-8">
       <Link href="/client/reports" className="text-sm text-slate-600 hover:underline">← Reports</Link>
-      <div className="mt-2 flex items-start justify-between gap-4">
+      <div className="mt-2 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-wide text-slate-500">Report</p>
           <h1 className="text-2xl font-bold">{project.name}</h1>
-          <p className="mt-1 text-sm text-slate-500">Status: {project.status}</p>
         </div>
         <div className="flex gap-2">
           <DownloadSiteCsvButton site={pdfSite} />
           <DownloadSitePdfButton site={pdfSite} />
         </div>
       </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <InfoBox
+          label="Status"
+          value={project.status.replace("_", " ")}
+          className={STATUS_STYLE[project.status] ?? "border-[var(--line)] bg-white"}
+        />
+        <InfoBox label="Stage" value={project.current_stage ?? "—"} />
+        {project.address && <InfoBox label="Address" value={project.address} />}
+        <InfoBox
+          label="Expected finish"
+          value={project.end_date ?? "Not set"}
+          className={extended ? "border-red-200 bg-red-50 text-red-700" : undefined}
+        />
+      </div>
+      {extended && (
+        <p className="mt-2 text-xs font-medium text-red-600">
+          Extended from {project.original_end_date}
+          {project.extension_reason ? ` · ${project.extension_reason}` : ""}
+        </p>
+      )}
+
+      <div className="mt-4">
+        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+          <div
+            className="h-full bg-brand"
+            style={{ width: `${Math.max(0, Math.min(100, completionPct))}%` }}
+          />
+        </div>
+        <div className="mt-1 text-xs text-slate-500">{completionPct.toFixed(1)}% complete</div>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <CostBox label="Budget" value={budget} />
+        <CostBox label="Spent" value={spent} />
+        <CostBox label="Remaining" value={remaining} accent={!overBudget} />
+      </div>
+      {overBudget && (
+        <p className="mt-2 text-xs font-medium text-red-600">
+          Over budget by ₹{(spent - budget).toLocaleString()}
+        </p>
+      )}
 
       {project.agreement_image_url && (
         <div className="mt-6 max-w-xl rounded-xl border border-[var(--line)] bg-white p-4">
