@@ -23,10 +23,11 @@ export default async function EditProjectPage(props: { params: Promise<{ id: str
 
   return (
     <AdminPage>
-      <Link href="/admin/projects" className="text-sm text-slate-600 hover:underline">
-        ← Projects
-      </Link>
-      <AdminPageHeader title={`Edit ${project.name}`} subtitle="Update this project's details." />
+      <AdminPageHeader
+        back={{ href: "/admin/projects", label: "Projects" }}
+        title={`Edit ${project.name}`}
+        subtitle="Update this project's details."
+      />
       <AdminContent>
 
       <form

@@ -1,8 +1,19 @@
 import { requireRole } from "@/lib/guard";
 import { ProfileMenu } from "@/components/ProfileMenu";
 import { readFlashError } from "@/lib/flash";
+import { BackLink } from "./BackLink";
 
-export async function AdminPageHeader({ title, subtitle }: { title: string; subtitle?: React.ReactNode }) {
+export async function AdminPageHeader({
+  title,
+  subtitle,
+  back,
+}: {
+  title: string;
+  subtitle?: React.ReactNode;
+  // Rendered inside the gradient, above the title, so the back control reads
+  // as part of this page's header instead of floating on the strip above it.
+  back?: { href: string; label: string };
+}) {
   const { user, role } = await requireRole(["superadmin", "admin", "manager"]);
   const displayRole = role === "manager" ? "Manager" : role === "superadmin" ? "Super Admin" : "Admin";
   const error = await readFlashError();
@@ -10,6 +21,7 @@ export async function AdminPageHeader({ title, subtitle }: { title: string; subt
     <div className="bg-gradient-to-br from-[var(--brand)] via-[var(--brand-deep)] to-slate-900 px-4 pb-16 pt-14 sm:px-6 lg:px-8 lg:pt-6">
       <div className="mx-auto max-w-6xl flex items-start justify-between">
         <div>
+          {back && <BackLink href={back.href} label={back.label} className="mb-3" />}
           <h1 className="text-xl font-bold text-white sm:text-2xl">{title}</h1>
           {subtitle && <p className="mt-1 text-sm text-white/60">{subtitle}</p>}
         </div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createSupabaseServerClient, getSessionAndRole } from "@/lib/supabase/server";
 import { AdminPage, BudgetAlert } from "@/components/admin/Page";
+import { BackLink } from "@/components/admin/BackLink";
 import { AutoSubmitFileInput } from "@/components/admin/AutoSubmitFileInput";
 import { ArchivedToggle, DeleteForeverButton, RestoreAction } from "@/components/admin/RowActions";
 import { CategoryField } from "@/components/admin/CategoryField";
@@ -194,9 +195,7 @@ export default async function ManageProjectPage(
       <div className="px-4 pt-14 pb-6 sm:px-6 sm:pb-8 lg:px-8 lg:pt-6 lg:pb-10 mx-auto max-w-6xl">
       {/* ── Top bar ── */}
       <div className="mb-6 flex items-center justify-between">
-        <Link href="/admin/projects" className="text-sm text-slate-500 hover:text-slate-700 transition">
-          ← Back to projects
-        </Link>
+        <BackLink href="/admin/projects" label="Back to projects" tone="muted" />
         <div className="flex items-center gap-2">
           {!isManager && <DownloadInvoiceButton data={invoiceData} />}
         </div>

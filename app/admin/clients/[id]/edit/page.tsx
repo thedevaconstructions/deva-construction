@@ -22,8 +22,11 @@ export default async function EditClientPage(props: { params: Promise<{ id: stri
 
   return (
     <AdminPage>
-      <Link href="/admin/clients" className="text-sm text-slate-600 hover:underline">← Clients</Link>
-      <AdminPageHeader title={`Edit ${client.name}`} subtitle="Update this client's details." />
+      <AdminPageHeader
+        back={{ href: "/admin/clients", label: "Clients" }}
+        title={`Edit ${client.name}`}
+        subtitle="Update this client's details."
+      />
       <AdminContent>
       <form action={updateClient} className="grid gap-4 rounded-xl border border-slate-200 bg-white p-6 sm:grid-cols-2 lg:grid-cols-3">
         <input type="hidden" name="id" value={client.id} />

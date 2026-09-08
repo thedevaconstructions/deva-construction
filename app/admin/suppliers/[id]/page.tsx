@@ -77,10 +77,8 @@ export default async function ManageSupplierPage(props: { params: Promise<{ id: 
 
   return (
     <AdminPage>
-      <Link href="/admin/suppliers" className="mb-2 inline-block text-sm text-slate-600 hover:underline">
-        ← Suppliers
-      </Link>
       <AdminPageHeader
+        back={{ href: "/admin/suppliers", label: "Suppliers" }}
         title={supplier.name}
         subtitle={
           `${supplier.email ?? "No email"} · ${supplier.phone ?? "No phone"} · ${supplier.profile_id ? "linked to a login" : "no login"}`

@@ -46,10 +46,10 @@ export default async function ManageMaterialPage(
 
   return (
     <AdminPage>
-      <Link href={`/admin/materials/${params.id}`} className="mb-2 inline-block text-sm text-slate-600 hover:underline">
-        ← {backLabel}
-      </Link>
-      <AdminPageHeader title={material.name} />
+      <AdminPageHeader
+        back={{ href: `/admin/materials/${params.id}`, label: backLabel }}
+        title={material.name}
+      />
       <AdminContent>
 
       <div className="mb-6 flex flex-wrap gap-2">

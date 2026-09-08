@@ -35,10 +35,8 @@ export default async function EditShowcasePage(props: { params: Promise<{ id: st
 
   return (
     <AdminPage>
-      <Link href="/admin/website" className="text-sm text-slate-600 hover:underline">
-        ← Website
-      </Link>
       <AdminPageHeader
+        back={{ href: "/admin/website", label: "Website" }}
         title={project.name}
         subtitle={
           project.published ? (

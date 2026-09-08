@@ -105,10 +105,8 @@ export default async function ProjectPaymentsPage(
 
   return (
     <AdminPage>
-      <Link href="/admin/payments" className="mb-2 inline-block text-sm text-slate-600 hover:underline">
-        ← All payments
-      </Link>
       <AdminPageHeader
+        back={{ href: "/admin/payments", label: "All payments" }}
         title={showArchived ? `${title} (archived)` : title}
         subtitle={
           showArchived

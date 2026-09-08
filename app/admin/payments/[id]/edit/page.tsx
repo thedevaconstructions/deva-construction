@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { AdminPage, AdminPageHeader, AdminContent } from "@/components/admin/Page";
@@ -49,8 +48,8 @@ export default async function EditPaymentPage(props: { params: Promise<{ id: str
 
   return (
     <AdminPage>
-      <Link href={backPath} className="text-sm text-slate-600 hover:underline">← Payments</Link>
       <AdminPageHeader
+        back={{ href: backPath, label: "Payments" }}
         title="Edit payment"
         subtitle={`Currently ${payment.status}. Status is changed with the approve / pay buttons, not here.`}
       />

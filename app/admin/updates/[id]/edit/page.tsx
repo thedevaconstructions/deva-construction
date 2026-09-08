@@ -17,8 +17,8 @@ export default async function EditUpdatePage(props: { params: Promise<{ id: stri
 
   return (
     <AdminPage>
-      <Link href="/admin/updates" className="text-sm text-slate-600 hover:underline">← Updates</Link>
       <AdminPageHeader
+        back={{ href: "/admin/updates", label: "Updates" }}
         // @ts-expect-error relation
         title={`Edit update — ${update.projects?.name ?? "—"}`}
         subtitle={`Posted ${new Date(update.created_at).toLocaleString()}`}

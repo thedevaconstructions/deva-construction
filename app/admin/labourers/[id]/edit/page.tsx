@@ -17,8 +17,11 @@ export default async function EditLabourerPage(props: { params: Promise<{ id: st
 
   return (
     <AdminPage>
-      <Link href="/admin/labourers" className="text-sm text-slate-600 hover:underline">← Labourers</Link>
-      <AdminPageHeader title={`Edit ${labourer.name}`} subtitle="Update this labourer's details." />
+      <AdminPageHeader
+        back={{ href: "/admin/labourers", label: "Labourers" }}
+        title={`Edit ${labourer.name}`}
+        subtitle="Update this labourer's details."
+      />
       <AdminContent>
       <form action={updateLabourer} className="grid gap-4 rounded-xl border border-slate-200 bg-white p-6 sm:grid-cols-2 lg:grid-cols-3">
         <input type="hidden" name="id" value={labourer.id} />

@@ -176,8 +176,11 @@ export default async function SiteReportPage(
 
   return (
     <AdminPage>
-      <Link href="/admin/reports" className="text-sm text-slate-600 hover:underline">← Reports</Link>
-        <AdminPageHeader title={project.name} subtitle={`Status: ${project.status}`} />
+      <AdminPageHeader
+        back={{ href: "/admin/reports", label: "Reports" }}
+        title={project.name}
+        subtitle={`Status: ${project.status}`}
+      />
       <AdminContent>
 
       <div className="mb-6 flex justify-end gap-2">

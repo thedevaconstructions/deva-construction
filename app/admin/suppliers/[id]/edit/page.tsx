@@ -21,8 +21,11 @@ export default async function EditSupplierPage(props: { params: Promise<{ id: st
 
   return (
     <AdminPage>
-      <Link href="/admin/suppliers" className="text-sm text-slate-600 hover:underline">← Suppliers</Link>
-      <AdminPageHeader title={`Edit ${supplier.name}`} subtitle="Update this supplier's details." />
+      <AdminPageHeader
+        back={{ href: "/admin/suppliers", label: "Suppliers" }}
+        title={`Edit ${supplier.name}`}
+        subtitle="Update this supplier's details."
+      />
       <AdminContent>
       <form action={updateSupplier} className="grid gap-4 rounded-xl border border-slate-200 bg-white p-6 sm:grid-cols-2 lg:grid-cols-3">
         <input type="hidden" name="id" value={supplier.id} />

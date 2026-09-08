@@ -48,10 +48,8 @@ export default async function ProjectMaterialsPage(
 
   return (
     <AdminPage>
-      <Link href="/admin/materials" className="mb-2 inline-block text-sm text-slate-600 hover:underline">
-        ← All materials
-      </Link>
       <AdminPageHeader
+        back={{ href: "/admin/materials", label: "All materials" }}
         title={showArchived ? `${title} (archived)` : title}
         subtitle={
           showArchived

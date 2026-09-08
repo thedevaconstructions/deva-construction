@@ -24,10 +24,8 @@ export default async function ManageClientPage(props: { params: Promise<{ id: st
 
   return (
     <AdminPage>
-      <Link href="/admin/clients" className="mb-2 inline-block text-sm text-slate-600 hover:underline">
-        ← Clients
-      </Link>
       <AdminPageHeader
+        back={{ href: "/admin/clients", label: "Clients" }}
         title={client.name}
         subtitle={
           `${client.email ?? "No email"} · ${client.phone ?? "No phone"} · ${client.profile_id ? "linked to a login" : "no login"}`

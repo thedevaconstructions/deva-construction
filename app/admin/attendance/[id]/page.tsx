@@ -50,10 +50,11 @@ export default async function ProjectAttendancePage(
 
   return (
     <AdminPage>
-      <Link href="/admin/attendance" className="mb-2 inline-block text-sm text-slate-600 hover:underline">
-        ← All sites
-      </Link>
-      <AdminPageHeader title={project.name} subtitle="Mark attendance for this site." />
+      <AdminPageHeader
+        back={{ href: "/admin/attendance", label: "All sites" }}
+        title={project.name}
+        subtitle="Mark attendance for this site."
+      />
       <AdminContent>
 
       <AttendanceDateNav projectId={params.id} date={date} />
